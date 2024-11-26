@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Black Hat Platforms</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(to bottom, #132c33, #2b5a6d);
+      color: #fff; /* White text color */
+      font-family: 'Consolas', monospace;
+      overflow: hidden;
+    }
+
+    .loading-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .loading-box {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      border: 4px solid #37FF00;
+      border-radius: 50%;
+      border-top: 4px solid transparent;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #ccc; /* Light gray text color */
+    }
+
+    #binary-code {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.3;
+      font-size: 16px;
+      line-height: 1.5;
+      white-space: nowrap;
+      color: #5cbdb5; /* Turquoise color */
+      animation: fadeIn 5s ease-in-out; /* Fade-in animation */
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to Black Hat Platforms</h1>
+  </header>
+
+  <div class="loading-container">
+    <div class="loading-box"></div>
+    <p id="loading-label">Loading...</p>
+  </div>
+
+  <footer>
+    &copy; 2024 Black Hat Platforms | Developed by Black Hat Computer Technologies Inc. (A JAYASINGHE BROTHERS HOLDINGS COMPANY)
+  </footer>
+
+  <div id="binary-code"></div>
+
+  <script>
+    // Binary code animation
+    const binaryCodeElement = document.getElementById("binary-code");
+    setInterval(() => {
+      const binaryCode = Math.floor(Math.random() * 2);
+      binaryCodeElement.innerText += binaryCode;
+      binaryCodeElement.scrollTop = binaryCodeElement.scrollHeight;
+    }, 50);
+
+    // Redirect to the website after 5 seconds
+    setTimeout(() => {
+      document.getElementById("loading-label").textContent = "You're welcome to Black Hat Voice Typing";
+      window.location.href = "https://voicen.000webhostapp.com/";
+    }, 5000);
+  </script>
+</body>
+</html>
