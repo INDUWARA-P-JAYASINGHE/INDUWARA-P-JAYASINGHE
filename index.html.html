@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Hat Voice Typing</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            color: #37FF00;
+            font-family: 'Consoles', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h1, p {
+            margin: 10px 0;
+        }
+        #dark-mode-toggle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: #37FF00;
+            color: black;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        #subscribe-button {
+            position: fixed;
+            top: 10px;
+            right: 80px; /* Adjusted right margin */
+            background-color: #37FF00;
+            color: black;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        #like-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #37FF00;
+            color: black;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        #custom-theme-button {
+            position: fixed;
+            top: 10px;
+            right: 180px; /* Adjusted right margin */
+            background-color: #37FF00;
+            color: black;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        #typing-area {
+            width: 80%;
+            margin: 20px auto;
+            padding: 10px;
+            border: 2px solid #37FF00;
+            min-height: 200px;
+            overflow-y: auto;
+        }
+        button, select {
+            margin: 10px;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        #voice-start-button, #voice-stop-button, #erase-button, #copy-button, #read-aloud-button, #speak-button, #save-button, #language-select, #undo-button, #redo-button {
+            background-color: #37FF00;
+            color: black;
+        }
+        footer {
+            background-color: #1a1a1a;
+            color: #37FF00;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        #current-date-time {
+            position: fixed;
+            top: 60px;
+            right: 10px;
+            color: red;
+        }
+        .animating-header {
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body onbeforeunload="return confirmSave()" onload="displayWelcomeMessage()">
+
+    <button id="dark-mode-toggle" onclick="toggleDarkMode()">Dark Mode</button>
+    <button id="subscribe-button" onclick="subscribePage()"><i class="fas fa-bell"></i> Subscribe</button>
+    <button id="like-button" onclick="likePage()"><i class="fas fa-thumbs-up"></i> Like</button>
+    <button id="custom-theme-button" onclick="changeBackgroundColor()">Custom Theme</button>
+
+    <h1 class="animating-header">Black Hat Voice Typing</h1>
+    <p>(A JAYASINGHE BROTHERS HOLDINGS COMPANY)</p>
+
+    <div id="typing-area" contenteditable="true" spellcheck="false"></div>
+
+    <br>
+
+    <button id="voice-start-button" onclick="toggleVoiceTyping()">Start Voice Typing</button>
+    <button id="voice-stop-button" onclick="stopVoiceTyping()">Stop Voice Typing</button>
+    <button id="erase-button" onclick="eraseText()">Erase</button>
+    <button id="copy-button" onclick="copyText()">Copy Text</button>
+    <button id="read-aloud-button" onclick="readAloud()">Read Aloud</button>
+    <button id="speak-button" onclick="speakText()">Speak</button>
+    <button id="save-button" onclick="saveText()">Save</button>
+    <button id="undo-button" onclick="undoText()">Undo</button>
+    <button id="redo-button" onclick="redoText()">Redo</button>
+
+    <br>
+
+    <select id="language-select">
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+        <option value="fr">French</option>
+        <option value="de">German</option>
+        <option value="it">Italian</option>
+        <option value="ja">Japanese</option>
+        <option value="ko">Korean</option>
+        <option value="zh-CN">Chinese (Simplified)</option>
+        <option value="ru">Russian</option>
+        <option value="ar">Arabic</option>
+        <option value="hi">Hindi</option>
+        <option value="si">Sinhala</option>
+        <!-- Add more language options as needed -->
+    </select>
+
+    <p id="current-date-time"></p>
+
+    <br>
+
+    <footer>
+<marquee>
+        BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited) | BLACK HAT TYPING MASTER BY Black Hat Computer Technologies Inc. (A Jayasinghe Brothers Holdings Company Limited)
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let recognition;
+        let isVoiceTyping = false;
+        let selectedLanguage;
+        let isDarkMode = false;
+        let subscribers = 0;
+        let typingHistory = [];
+        let historyIndex = -1;
+
+        function toggleVoiceTyping() {
+            if (!isVoiceTyping) {
+                startVoiceTyping();
+            } else {
+                stopVoiceTyping();
+            }
+        }
+
+        function startVoiceTyping() {
+            selectedLanguage = document.getElementById('language-select').value;
+            recognition = new webkitSpeechRecognition();
+            recognition.lang = selectedLanguage;
+            recognition.continuous = true;
+            recognition.onresult = function(event) {
+                const transcript = event.results[event.results.length - 1][0].transcript;
+                document.getElementById('typing-area').innerText += transcript + ' ';
+                saveToHistory();
+            };
+            recognition.start();
+            isVoiceTyping = true;
+            document.getElementById('voice-start-button').innerText = 'Pause Voice Typing';
+        }
+
+        function stopVoiceTyping() {
+            if (recognition) {
+                recognition.stop();
+                isVoiceTyping = false;
+                document.getElementById('voice-start-button').innerText = 'Resume Voice Typing';
+            }
+        }
+
+        function eraseText() {
+            document.getElementById('typing-area').innerText = '';
+            saveToHistory();
+        }
+
+        function copyText() {
+            const typingArea = document.getElementById('typing-area');
+            const textArea = document.createElement('textarea');
+            textArea.value = typingArea.innerText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        }
+
+        function readAloud() {
+            const textToRead = document.getElementById('typing-area').innerText;
+            const audio = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&tl=${selectedLanguage}&q=${encodeURIComponent(textToRead)}`);
+            audio.play();
+        }
+
+        function speakText() {
+            const textToSpeak = document.getElementById('typing-area').innerText;
+            const speech = new SpeechSynthesisUtterance(textToSpeak);
+            window.speechSynthesis.speak(speech);
+        }
+
+        function saveText() {
+            const textToSave = document.getElementById('typing-area').innerText;
+            const timestamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\..+/, "");
+            const fileName = `black_hat_${timestamp}.doc`;
+            const blob = new Blob([textToSave], { type: 'application/msword' });
+            saveAs(blob, fileName);
+        }
+
+        function undoText() {
+            if (historyIndex > 0) {
+                historyIndex--;
+                document.getElementById('typing-area').innerText = typingHistory[historyIndex];
+            }
+        }
+
+        function redoText() {
+            if (historyIndex < typingHistory.length - 1) {
+                historyIndex++;
+                document.getElementById('typing-area').innerText = typingHistory[historyIndex];
+            }
+        }
+
+        function saveToHistory() {
+            const currentText = document.getElementById('typing-area').innerText;
+            if (typingHistory.length === 0 || currentText !== typingHistory[historyIndex]) {
+                typingHistory.push(currentText);
+                historyIndex = typingHistory.length - 1;
+            }
+        }
+
+        function displayWelcomeMessage() {
+            alert("Welcome to Black Hat Platforms!");
+        }
+
+        function confirmSave() {
+            return confirm("Do you want to save before leaving?");
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const formattedDateTime = `${formatTime(now.getHours())}:${formatTime(now.getMinutes())}:${formatTime(now.getSeconds())} - ${monthNames[now.getMonth()]} ${formatTime(now.getDate())}, ${now.getFullYear()}`;
+            document.getElementById('current-date-time').innerText = formattedDateTime;
+        }
+
+        function formatTime(value) {
+            return String(value).padStart(2, '0');
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.style.backgroundColor = isDarkMode ? 'black' : 'white';
+            document.body.style.color = isDarkMode ? '#37FF00' : 'black';
+            document.getElementById('dark-mode-toggle').innerText = isDarkMode ? 'Light Mode' : 'Dark Mode';
+        }
+
+        function subscribePage() {
+            subscribers++;
+            alert(`Thank you for subscribing to Black Hat Platforms! Current subscribers: ${subscribers}`);
+            updateThemeColor();
+        }
+
+        function likePage() {
+            alert("You liked this page!");
+        }
+
+        function changeBackgroundColor() {
+            updateThemeColor();
+        }
+
+        function updateThemeColor() {
+            const themeColor = getRandomColor();
+            document.body.style.backgroundColor = themeColor;
+            document.getElementById('subscribe-button').style.backgroundColor = themeColor;
+            document.getElementById('like-button').style.backgroundColor = themeColor;
+            document.getElementById('custom-theme-button').style.backgroundColor = themeColor;
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
+</body>
+</html>
