@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Hat - Coming Soon</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #192A56; /* Dark blue background color */
+      color: #ffffff; /* White text color */
+    }
+    .container {
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+    }
+    h1 {
+      font-size: 60px; /* Enlarged font size for heading */
+      margin-bottom: 30px; /* Increased margin */
+    }
+    p {
+      font-size: 36px; /* Enlarged font size for message */
+      margin-bottom: 50px; /* Increased margin */
+    }
+    .animation {
+      display: inline-block;
+      animation: fade 1.5s infinite alternate;
+    }
+    @keyframes fade {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Black Hat</h1>
+    <p>Coming Soon<span class="animation">...</span></p>
+  </div>
+</body>
+</html>

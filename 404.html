@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Black Hat</title>
+    <style>
+        body {
+            background-color: #0d1b3d; /* Dark Blue Background Color */
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        h1 {
+            font-size: 5em;
+            margin: 0;
+        }
+        p {
+            font-size: 1.5em;
+        }
+        @keyframes slide {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        .logo {
+            animation: slide 3s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>404</h1>
+            <p>Oops! Page Not Found</p>
+        </div>
+    </div>
+</body>
+</html>

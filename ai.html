@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Hat AI+</title>
+    <style>
+        body {
+            background-color: #000033; /* Dark blue background color */
+            color: #ffffff; /* White text color */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        h1 {
+            font-size: 3em;
+            animation: slideIn 1s ease-in-out forwards;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        p {
+            font-size: 1.2em;
+            margin-top: 20px;
+            animation: fadeInUp 1s ease-in-out forwards;
+        }
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .cta-button {
+            background-color: #0099ff; /* Blue CTA button color */
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            animation: fadeInUpBtn 1s ease-in-out forwards;
+        }
+        @keyframes fadeInUpBtn {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .cta-button:hover {
+            background-color: #007acc; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Black Hat AI+</h1>
+        <p>Your destination for cutting-edge AI solutions.</p>
+        <a href="C:\Users\jmpin\OneDrive\Desktop\Black Hat Tv+\coming.html" class="cta-button">Learn More</a>
+    </div>
+</body>
+</html>
