@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Hat Free Online CRO</title>
+  <style>
+    body {
+      background-color: #001f3f; /* Dark blue background color */
+      font-family: Arial, sans-serif;
+      color: #fff; /* White text color */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content horizontally */
+      min-height: 100vh; /* Ensure the footer stays at the bottom */
+    }
+
+    header {
+      background-color: #111; /* Dark gray header background color */
+      padding: 20px;
+      text-align: center;
+      width: 100%;
+    }
+
+    footer {
+      background-color: #111; /* Dark gray footer background color */
+      padding: 20px;
+      text-align: center;
+      margin-top: auto; /* Push footer to the bottom */
+      width: 100%;
+    }
+
+    #oscilloscope {
+      margin: 20px auto; /* Center the oscilloscope */
+      width: 80%; /* Adjusted width for better visibility */
+      max-width: 600px; /* Maximum width for better responsiveness */
+      height: 300px; /* Adjusted height for better visibility */
+      border: 1px solid #fff;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    button {
+      margin: 0 10px; /* Add space between buttons */
+      padding: 10px 20px;
+      background-color: #2E8B57; /* Rainforest green button color */
+      color: #fff; /* White text color */
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3CB371; /* Darker rainforest green color on hover */
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Black Hat Free Online CRO</h1>
+  </header>
+
+  <canvas id="oscilloscope"></canvas>
+
+  <div class="button-container">
+    <button id="microphoneButton">Start Microphone</button>
+    <button id="stopMicrophoneButton">Stop Microphone</button>
+    <button id="downloadButton">Download Waveform</button>
+    <!-- Add more buttons as needed -->
+  </div>
+
+  <footer>
+    <p>Black Hat Ultrasound Waves Scanner by Black Hat Platforms Inc. [ A Jayasinghe Brothers Holdings Company Limited. ]</p>
+  </footer>
+
+  <script>
+    // JavaScript for the CRO
+    const canvas = document.getElementById('oscilloscope');
+    const ctx = canvas.getContext('2d');
+    let recordedChunks = [];
+
+    // Function to draw waveform
+    function drawWaveform(data) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      
+      // Center the waveform vertically
+      const centerY = canvas.height / 2;
+
+      // Scale the waveform horizontally
+      const scaleX = canvas.width / (data.length - 1);
+
+      // Start drawing from the center of the canvas
+      ctx.moveTo(0, centerY);
+
+      for (let i = 0; i < data.length; i++) {
+        const x = i * scaleX;
+        const y = centerY - (0.5 - data[i] / 255) * canvas.height / 2; // Adjust for vertical centering
+        ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = '#fff'; // Set white color for waveform
+      ctx.stroke();
+    }
+
+    // Function to start microphone
+    function startMicrophone() {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+          const audioContext = new AudioContext();
+          const analyser = audioContext.createAnalyser();
+          const microphone = audioContext.createMediaStreamSource(stream);
+          const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+          microphone.connect(analyser);
+
+          function updateWaveform() {
+            analyser.getByteTimeDomainData(dataArray);
+            drawWaveform(dataArray);
+            recordedChunks.push(new Float32Array(dataArray));
+            requestAnimationFrame(updateWaveform);
+          }
+
+          updateWaveform();
+        })
+        .catch(error => {
+          console.error('Error accessing microphone:', error);
+        });
+    }
+
+    // Function to stop microphone
+    function stopMicrophone() {
+      // Stop audio processing
+      // Add your code to stop audio processing here
+      recordedChunks = [];
+    }
+
+    // Function to download waveform as MP4
+    function downloadWaveform() {
+      if (recordedChunks.length === 0) {
+        console.error('No waveform data to download.');
+        return;
+      }
+
+      const audioBlob = new Blob(recordedChunks, { type: 'audio/wav' });
+      const url = URL.createObjectURL(audioBlob);
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+      a.style = 'display: none';
+      a.href = url;
+      a.download = 'waveform.mp4';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+
+    // Event listeners for microphone and download buttons
+    document.getElementById('microphoneButton').addEventListener('click', startMicrophone);
+    document.getElementById('stopMicrophoneButton').addEventListener('click', stopMicrophone);
+    document.getElementById('downloadButton').addEventListener('click', downloadWaveform);
+  </script>
+</body>
+</html>
